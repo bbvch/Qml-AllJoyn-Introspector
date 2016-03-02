@@ -1,5 +1,3 @@
-#pragma once
-
 #include <iostream>
 #include <functional>
 #include <vector>
@@ -15,8 +13,8 @@
 #include "alljoynhelpers.h"
 #include "introspectionlistener.h"
 
-IntrospectionListener::IntrospectionListener(std::shared_ptr<ajn::BusAttachment> bus)
-    : bus(bus)
+IntrospectionListener::IntrospectionListener(std::shared_ptr<ajn::BusAttachment> bus, CallbackType callback)
+    : bus{bus}, callback{callback}
 {
 }
 
@@ -30,13 +28,12 @@ void IntrospectionListener::Announced(const char* busName, uint16_t version, ajn
     std::vector<const char*> paths(numPaths);
     desc.GetPaths(paths.data(), numPaths);
 
-    JoinedBusSession session(bus, busName, port, {ajn::SessionOpts::TRAFFIC_MESSAGES, false, ajn::SessionOpts::PROXIMITY_ANY, ajn::TRANSPORT_ANY}, shared_from_this());
+    ajn::SessionOpts opts{ajn::SessionOpts::TRAFFIC_MESSAGES, false, ajn::SessionOpts::PROXIMITY_ANY, ajn::TRANSPORT_ANY};
+    auto session = std::make_shared<JoinedBusSession>(bus, busName, port, opts, shared_from_this());
 
     for(auto path : paths)
     {
-        std::cout << busName << ", " << port << ", " <<  path << std::endl;
-
-        ajn::ProxyBusObject proxy(*bus, busName, path, session.id());
+        ajn::ProxyBusObject proxy(*bus, busName, path, session->id());
         ajn::Message reply(*bus);
 
         try
@@ -60,7 +57,7 @@ void IntrospectionListener::Announced(const char* busName, uint16_t version, ajn
         }
         if(reply->GetArg())
         {
-            std::cout << reply->GetArg()->v_string.str << std::endl;
+            callback(session, path, reply->GetArg()->v_string.str);
         }
     }
 }
@@ -69,6 +66,6 @@ void IntrospectionListener::SessionLost(ajn::SessionId sessionId, SessionLostRea
 {
     QCC_UNUSED(reason);
 
-    std::cout << "Session " << sessionId << " terminated unexpectedly." << std::endl;
+    std::cerr << "Session " << sessionId << " terminated unexpectedly." << std::endl;
 }
 

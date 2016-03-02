@@ -27,14 +27,29 @@ AllJoynRouterSession::AllJoynRouterSession()
 }
 
 JoinedBusSession::JoinedBusSession(std::shared_ptr<ajn::BusAttachment> bus, const char* busName, ajn::SessionPort port, ajn::SessionOpts opts, std::shared_ptr<ajn::SessionListener> listener)
-    : bus(bus), sessionListener(listener)
+    : sessionBus(bus), busName(busName), sessionPort(port), sessionListener(listener)
 {
     bus->EnableConcurrentCallbacks();
     AJ_CHECK(bus->JoinSession(busName, port, sessionListener.get(), sessionId, opts));
-    cleanup = std::shared_ptr<int>{nullptr, [this](int*) { this->bus->LeaveJoinedSession(sessionId); sessionId = 0; }};
+    cleanup = std::shared_ptr<int>{nullptr, [this](int*) { this->sessionBus->LeaveJoinedSession(sessionId); sessionId = 0; }};
 }
 
 ajn::SessionId JoinedBusSession::id() const
 {
     return sessionId;
+}
+
+std::string JoinedBusSession::name() const
+{
+    return busName;
+}
+
+ajn::SessionPort JoinedBusSession::port() const
+{
+    return sessionPort;
+}
+
+std::shared_ptr<ajn::BusAttachment> JoinedBusSession::bus() const
+{
+    return sessionBus;
 }

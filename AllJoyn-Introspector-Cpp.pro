@@ -9,7 +9,8 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     alljoynhelpers.cpp \
-    introspectionlistener.cpp
+    introspectionlistener.cpp \
+    introspectionthread.cpp
 
 DEFINES += QCC_OS_GROUP_POSIX
 
@@ -21,4 +22,5 @@ DEPENDPATH += $$PWD/../alljoyn-15.09.00a-src/build/linux/x86_64/debug/dist/cpp/i
 
 HEADERS += \
     alljoynhelpers.h \
-    introspectionlistener.h
+    introspectionlistener.h \
+    introspectionthread.h
