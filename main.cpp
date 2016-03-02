@@ -1,4 +1,4 @@
-//#include <QCoreApplication>
+#include <QCoreApplication>
 
 #include <memory>
 #include <thread>
@@ -72,10 +72,32 @@ struct AllJoynRouterSession
     std::shared_ptr<int> cleanup;
 };
 
+struct JoinedBusSession
+{
+public:
+    JoinedBusSession(std::shared_ptr<ajn::BusAttachment> bus, const char* busName, ajn::SessionPort port, ajn::SessionOpts opts, std::shared_ptr<ajn::SessionListener> listener)
+        : bus(bus), sessionListener(listener)
+    {
+        bus->EnableConcurrentCallbacks();
+        AJ_CHECK(bus->JoinSession(busName, port, sessionListener.get(), sessionId, opts));
+    }
+
+    ajn::SessionId id() const
+    {
+        return sessionId;
+    }
+
+private:
+    ajn::SessionId sessionId;
+    std::shared_ptr<ajn::BusAttachment> bus;
+    std::shared_ptr<ajn::SessionListener> sessionListener;
+    std::shared_ptr<int> cleanup{ nullptr, [this](int*) { bus->LeaveJoinedSession(sessionId); sessionId = 0; } };
+};
+
 constexpr const char* AJN_INTROSPECT_INTERFACE = "org.allseen.Introspectable";
 constexpr const char* DBUS_INTROSPECT_INTERFACE = "org.freedesktop.DBus.Introspectable";
 
-class MyAboutListener : public ajn::AboutListener, public ajn::SessionListener
+class MyAboutListener : public ajn::AboutListener, public ajn::SessionListener, public std::enable_shared_from_this<MyAboutListener>
 {
 public:
     MyAboutListener(std::shared_ptr<ajn::BusAttachment> bus)
@@ -94,16 +116,13 @@ protected:
         std::vector<const char*> paths(numPaths);
         desc.GetPaths(paths.data(), numPaths);
 
-        ajn::SessionId sessionId;
-        ajn::SessionOpts opts(ajn::SessionOpts::TRAFFIC_MESSAGES, false, ajn::SessionOpts::PROXIMITY_ANY, ajn::TRANSPORT_ANY);
-        bus->EnableConcurrentCallbacks();
-        AJ_CHECK(bus->JoinSession(busName, port, this, sessionId, opts));
+        JoinedBusSession session(bus, busName, port, {ajn::SessionOpts::TRAFFIC_MESSAGES, false, ajn::SessionOpts::PROXIMITY_ANY, ajn::TRANSPORT_ANY}, shared_from_this());
 
         for(auto path : paths)
         {
             std::cout << busName << ", " << port << ", " <<  path << std::endl;
 
-            ajn::ProxyBusObject proxy(*bus, busName, path, sessionId);
+            ajn::ProxyBusObject proxy(*bus, busName, path, session.id());
             ajn::Message reply(*bus);
 
             try
@@ -136,7 +155,7 @@ protected:
     {
         QCC_UNUSED(reason);
 
-        std::cout << "Session " << sessionId << " terminated." << std::endl;
+        std::cout << "Session " << sessionId << " terminated unexpectedly." << std::endl;
     }
 
 private:
@@ -145,11 +164,7 @@ private:
 
 int main(int argc, char *argv[])
 {
-    QCC_UNUSED(argc);
-    QCC_UNUSED(argv);
-
-//    QCoreApplication a(argc, argv);
-//    return a.exec();
+    QCoreApplication a(argc, argv);
 
     AllJoynSession aj_session;
     AllJoynRouterSession aj_router_session;
@@ -166,9 +181,5 @@ int main(int argc, char *argv[])
     // Ask for all About announcements
     AJ_CHECK(bus->WhoImplements(NULL));
 
-    // Sleep until killed
-    while(true)
-    {
-        std::this_thread::sleep_for(1s);
-    }
+    return a.exec();
 }
