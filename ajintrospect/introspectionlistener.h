@@ -5,6 +5,7 @@
 
 #include "alljoynhelpers.h"
 
+
 class QString;
 
 constexpr const char* AJN_INTROSPECT_INTERFACE = "org.allseen.Introspectable";

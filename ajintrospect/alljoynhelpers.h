@@ -8,6 +8,7 @@
 #include <alljoyn/Init.h>
 #include <alljoyn/BusAttachment.h>
 
+
 class alljoyn_error : public std::runtime_error
 {
 public:
@@ -18,13 +19,12 @@ private:
 };
 
 namespace {
-const QStatus& aj_check(const QStatus &status, const char* statement)
+void aj_check(const QStatus &status, const char* statement)
 {
     if(ER_OK != status)
     {
         throw alljoyn_error(status, statement);
     }
-    return status;
 }
 
 #define AJ_CHECK(x) aj_check((x), #x)
