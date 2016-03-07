@@ -12,6 +12,7 @@ SOURCES += \
 
 HEADERS += \
     introspectionparser.h \
-    alljoynnode.h
+    alljoynnode.h \
+    joinedbussession_fw.h
 
 include(../AllJoyn-Introspector-Cpp.pri)

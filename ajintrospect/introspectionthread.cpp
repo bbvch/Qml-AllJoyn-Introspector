@@ -9,6 +9,7 @@
 #include "introspectionlistener.h"
 #include "introspectionthread.h"
 
+
 IntrospectionThread::IntrospectionThread(QObject* parent) : QThread(parent)
 {
 }

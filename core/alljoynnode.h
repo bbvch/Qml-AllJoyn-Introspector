@@ -5,7 +5,7 @@
 
 #include <memory>
 
-class JoinedBusSession;
+#include "joinedbussession_fw.h"
 
 
 class AllJoynNode : public QObject

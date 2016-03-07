@@ -2,10 +2,8 @@
 
 #include <QString>
 #include <QThread>
-#include <memory>
 
-class JoinedBusSession;
-Q_DECLARE_METATYPE(std::shared_ptr<JoinedBusSession>)
+#include "../core/joinedbussession_fw.h"
 
 
 class IntrospectionThread : public QThread

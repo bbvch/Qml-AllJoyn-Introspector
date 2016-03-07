@@ -3,6 +3,7 @@
 #include "introspectionthread.h"
 #include "introspectionparser.h"
 #include "alljoynnode.h"
+#include "joinedbussession_fw.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,7 +12,7 @@ int main(int argc, char *argv[])
     IntrospectionParser introspectionParser;
     IntrospectionThread introspectionThread;
 
-    QObject::connect(&introspectionThread, SIGNAL(introspectionXmlReceived(std::shared_ptr<JoinedBusSession> session,QString,QString)), &introspectionParser, SLOT(introspectionXmlReceived(std::shared_ptr<JoinedBusSession> session,QString,QString)));
+    QObject::connect(&introspectionThread, SIGNAL(introspectionXmlReceived(std::shared_ptr<JoinedBusSession>,QString,QString)), &introspectionParser, SLOT(introspectionXmlReceived(std::shared_ptr<JoinedBusSession>,QString,QString)));
 
     introspectionThread.start();
 
