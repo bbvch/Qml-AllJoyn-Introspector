@@ -9,6 +9,8 @@
 
 class PresentNodesModel : public QAbstractListModel
 {
+    Q_OBJECT
+
 public:
     PresentNodesModel(QObject* parent = nullptr);
 
@@ -19,6 +21,7 @@ public:
     enum class UserRoles
     {
         Node = Qt::UserRole + 1,
+        Name,
         Methods
     };
 

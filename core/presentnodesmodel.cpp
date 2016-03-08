@@ -15,7 +15,14 @@ void PresentNodesModel::nodeFound(std::shared_ptr<AllJoynNode> node)
 
 int PresentNodesModel::rowCount(const QModelIndex &parent) const
 {
-    return nodes.length();
+    if(parent == QModelIndex())
+    {
+        return nodes.length();
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 QVariant PresentNodesModel::data(const QModelIndex &index, int role) const
@@ -26,8 +33,11 @@ QVariant PresentNodesModel::data(const QModelIndex &index, int role) const
 
         switch(role)
         {
-        case int(UserRoles::Node):
         case Qt::DisplayRole:
+        case int(UserRoles::Name):
+            return {node->getName()};
+
+        case int(UserRoles::Node):
             return {QMetaType::QObjectStar, node.get()};
 
         case int(UserRoles::Methods):
@@ -42,6 +52,7 @@ QHash<int, QByteArray> PresentNodesModel::roleNames() const
 {
     auto roleNames = QAbstractListModel::roleNames();
     roleNames[int(UserRoles::Node)] = "node";
+    roleNames[int(UserRoles::Name)] = "name";
     roleNames[int(UserRoles::Methods)] = "methods";
 
     return roleNames;

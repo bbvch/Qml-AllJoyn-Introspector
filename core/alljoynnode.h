@@ -13,6 +13,7 @@ class AllJoynNode : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QList<QString> methods READ getMethods)
+    Q_PROPERTY(QString name READ getName)
 
 public:
     AllJoynNode(std::shared_ptr<JoinedBusSession> session, QString path, QObject *parent = 0);
@@ -20,6 +21,7 @@ public:
 public:
     void addMethod(QString interface, QString method, QString params, QString returns);
     QList<QString> getMethods() const;
+    QString getName() const;
 
 signals:
     void sessionTerminated();

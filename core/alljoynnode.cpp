@@ -27,6 +27,10 @@ QList<QString> AllJoynNode::getMethods() const
     return methods;
 }
 
+QString AllJoynNode::getName() const
+{
+    return path;
+}
 
 void AllJoynNode::invokeMethod(QString method, QList<QVariant> params, QList<QVariant>& returns)
 {

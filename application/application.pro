@@ -1,14 +1,16 @@
-QT += core
-QT -= gui
+TEMPLATE = app
+
+QT += qml quick
 
 TARGET = AllJoyn-Introspector
-CONFIG += c++14 console
+CONFIG += c++14
 CONFIG -= app_bundle
-
-TEMPLATE = app
 
 include(../AllJoyn-Introspector-Cpp.pri)
 include(../core/core.pri)
 include(../ajintrospect/ajintrospect.pri)
 
 SOURCES += main.cpp
+
+RESOURCES += \
+    qml.qrc
