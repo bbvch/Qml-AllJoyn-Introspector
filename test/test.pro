@@ -11,10 +11,8 @@ SOURCES += \
     /usr/src/gtest/src/gtest-all.cc \
     /usr/src/gmock/src/gmock_main.cc \
     /usr/src/gmock/src/gmock-all.cc \
-    introspectionparsertest.cpp
-
-
-#HEADERS += \
+    introspectionparsertest.cpp \
+    presentnodesmodeltest.cpp
 
 INCLUDEPATH += /usr/src/gtest /usr/src/gmock
 

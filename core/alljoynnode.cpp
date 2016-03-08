@@ -8,6 +8,7 @@ namespace {
 AllJoynNode::AllJoynNode(std::shared_ptr<JoinedBusSession> session, QString path, QObject *parent)
     : QObject(parent), session(session), path(path)
 {
+    // TODO register callback for session termination
 }
 
 void AllJoynNode::addMethod(QString interface, QString method, QString params, QString returns)
@@ -27,3 +28,7 @@ QList<QString> AllJoynNode::getMethods() const
 }
 
 
+void AllJoynNode::invokeMethod(QString method, QList<QVariant> params, QList<QVariant>& returns)
+{
+
+}

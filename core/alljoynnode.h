@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QVariant>
 
 #include <memory>
 
@@ -21,8 +22,10 @@ public:
     QList<QString> getMethods() const;
 
 signals:
+    void sessionTerminated();
 
 public slots:
+    void invokeMethod(QString,QList<QVariant>,QList<QVariant>&);
 
 private:
     std::shared_ptr<JoinedBusSession> session;

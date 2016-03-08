@@ -8,11 +8,13 @@ TEMPLATE = lib
 
 SOURCES += \
     introspectionparser.cpp \
-    alljoynnode.cpp
+    alljoynnode.cpp \
+    presentnodesmodel.cpp
 
 HEADERS += \
     introspectionparser.h \
     alljoynnode.h \
-    joinedbussession_fw.h
+    joinedbussession_fw.h \
+    presentnodesmodel.h
 
 include(../AllJoyn-Introspector-Cpp.pri)
