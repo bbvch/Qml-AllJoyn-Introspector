@@ -14,7 +14,7 @@ public:
     IntrospectionThread(QObject* parent = 0);
 
 signals:
-    void introspectionXmlReceived(std::shared_ptr<JoinedBusSession> session, QString path, QString xml);
+    void introspectionXmlReceived(std::shared_ptr<IObservableBusSession> session, QString path, QString xml);
 
 protected:
     void run() override;

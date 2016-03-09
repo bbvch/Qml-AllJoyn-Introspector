@@ -11,6 +11,7 @@
 #include <alljoyn/SessionListener.h>
 
 #include "alljoynhelpers.h"
+#include "joinedbussession.h"
 #include "introspectionlistener.h"
 
 IntrospectionListener::IntrospectionListener(std::shared_ptr<ajn::BusAttachment> bus, CallbackType callback)
@@ -29,7 +30,7 @@ void IntrospectionListener::Announced(const char* busName, uint16_t version, ajn
     desc.GetPaths(paths.data(), numPaths);
 
     ajn::SessionOpts opts{ajn::SessionOpts::TRAFFIC_MESSAGES, false, ajn::SessionOpts::PROXIMITY_ANY, ajn::TRANSPORT_ANY};
-    auto session = std::make_shared<JoinedBusSession>(bus, busName, port, opts, shared_from_this());
+    auto session = std::make_shared<JoinedBusSession>(bus, busName, port, opts);
 
     for(auto path : paths)
     {
@@ -60,12 +61,5 @@ void IntrospectionListener::Announced(const char* busName, uint16_t version, ajn
             callback(session, path, reply->GetArg()->v_string.str);
         }
     }
-}
-
-void IntrospectionListener::SessionLost(ajn::SessionId sessionId, SessionLostReason reason)
-{
-    QCC_UNUSED(reason);
-
-    std::cerr << "Session " << sessionId << " terminated unexpectedly." << std::endl;
 }
 

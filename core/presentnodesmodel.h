@@ -30,6 +30,9 @@ signals:
 public slots:
     void nodeFound(std::shared_ptr<AllJoynNode>);
 
+protected slots:
+    void nodeLost(QString reason);
+
 private:
     QList<std::shared_ptr<AllJoynNode>> nodes;
 };

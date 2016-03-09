@@ -3,5 +3,6 @@
 #include <QMetaType>
 #include <memory>
 
-class JoinedBusSession;
-Q_DECLARE_METATYPE(std::shared_ptr<JoinedBusSession>)
+#include "../ajintrospect/iobservablebussession.h"
+
+Q_DECLARE_METATYPE(std::shared_ptr<IObservableBusSession>)

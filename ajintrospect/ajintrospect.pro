@@ -9,12 +9,15 @@ TEMPLATE = lib
 SOURCES += \
     alljoynhelpers.cpp \
     introspectionlistener.cpp \
-    introspectionthread.cpp
+    introspectionthread.cpp \
+    joinedbussession.cpp
 
 HEADERS += \
     alljoynhelpers.h \
     introspectionlistener.h \
-    introspectionthread.h
+    introspectionthread.h \
+    joinedbussession.h \
+    iobservablebussession.h
 
 DEFINES += QCC_OS_GROUP_POSIX
 

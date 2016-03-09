@@ -2,13 +2,28 @@
 
 namespace {
     auto registered1 = qRegisterMetaType<std::shared_ptr<AllJoynNode>>();
-    auto registered2 = qRegisterMetaType<std::shared_ptr<JoinedBusSession>>();
+    auto registered2 = qRegisterMetaType<std::shared_ptr<IObservableBusSession>>();
 }
 
-AllJoynNode::AllJoynNode(std::shared_ptr<JoinedBusSession> session, QString path, QObject *parent)
+AllJoynNode::AllJoynNode(std::shared_ptr<IObservableBusSession> session, QString path, QObject *parent)
     : QObject(parent), session(session), path(path)
 {
-    // TODO register callback for session termination
+}
+
+void AllJoynNode::notifyOnSessionTermination()
+{
+    auto wptr = std::weak_ptr<AllJoynNode>{shared_from_this()};
+    session->addTerminationCallback(this, [wptr] (std::string reason) {
+        if(auto ptr = wptr.lock())
+        {
+            ptr->emitSessionTerminated(reason);
+        }
+    });
+}
+
+AllJoynNode::~AllJoynNode()
+{
+    session->removeTerminationCallback(this);
 }
 
 void AllJoynNode::addMethod(QString interface, QString method, QString params, QString returns)
@@ -35,4 +50,14 @@ QString AllJoynNode::getName() const
 void AllJoynNode::invokeMethod(QString method, QList<QVariant> params, QList<QVariant>& returns)
 {
 
+}
+
+void AllJoynNode::emitSessionTerminated(std::string reason)
+{
+    emit sessionTerminated(QString(reason.c_str()));
+}
+
+bool AllJoynNode::isAvailable() const
+{
+    return !session->isTerminated();
 }

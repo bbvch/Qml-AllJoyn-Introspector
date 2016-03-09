@@ -5,13 +5,14 @@
 
 #include "introspectionparser.h"
 #include "alljoynnode.h"
+#include "mockbussession.h"
 
-auto typeRegistered = qRegisterMetaType<std::shared_ptr<JoinedBusSession>>();
+auto typeRegistered = qRegisterMetaType<std::shared_ptr<IObservableBusSession>>();
 
 TEST(IntrospectionParser, sendsNodeFound)
 {
     IntrospectionParser parser;
-    std::shared_ptr<JoinedBusSession> session{nullptr};
+    auto session = std::make_shared<MockBusSession>();
 
     QSignalSpy spy(&parser, SIGNAL(nodeFound(std::shared_ptr<AllJoynNode>)));
 
@@ -25,7 +26,7 @@ TEST(IntrospectionParser, sendsNodeFound)
 TEST(IntrospectionParser, sendsNodeWithSimpleMethod)
 {
     IntrospectionParser parser;
-    std::shared_ptr<JoinedBusSession> session{nullptr};
+    auto session = std::make_shared<MockBusSession>();
 
     QSignalSpy spy(&parser, SIGNAL(nodeFound(std::shared_ptr<AllJoynNode>)));
 
@@ -50,7 +51,7 @@ TEST(IntrospectionParser, sendsNodeWithSimpleMethod)
 TEST(IntrospectionParser, sendsNodeWithMethodWithParamsAndReturnValue)
 {
     IntrospectionParser parser;
-    std::shared_ptr<JoinedBusSession> session{nullptr};
+    auto session = std::make_shared<MockBusSession>();
 
     QSignalSpy spy(&parser, SIGNAL(nodeFound(std::shared_ptr<AllJoynNode>)));
 

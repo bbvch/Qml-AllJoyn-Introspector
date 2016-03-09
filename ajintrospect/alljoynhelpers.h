@@ -43,22 +43,3 @@ struct AllJoynRouterSession
 
     std::shared_ptr<int> cleanup{};
 };
-
-struct JoinedBusSession
-{
-public:
-    JoinedBusSession(std::shared_ptr<ajn::BusAttachment> bus, const char* busName, ajn::SessionPort port, ajn::SessionOpts opts, std::shared_ptr<ajn::SessionListener> listener);
-
-    ajn::SessionId id() const;
-    std::shared_ptr<ajn::BusAttachment> bus() const;
-    std::string name() const;
-    ajn::SessionPort port() const;
-
-private:
-    ajn::SessionId sessionId{};
-    std::shared_ptr<ajn::BusAttachment> sessionBus{};
-    std::string busName{};
-    ajn::SessionPort sessionPort;
-    std::shared_ptr<ajn::SessionListener> sessionListener{};
-    std::shared_ptr<int> cleanup{};
-};

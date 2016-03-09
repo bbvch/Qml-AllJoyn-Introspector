@@ -20,7 +20,9 @@ int main(int argc, char *argv[])
     IntrospectionParser introspectionParser;
     IntrospectionThread introspectionThread;
 
-    QObject::connect(&introspectionThread, SIGNAL(introspectionXmlReceived(std::shared_ptr<JoinedBusSession>,QString,QString)), &introspectionParser, SLOT(introspectionXmlReceived(std::shared_ptr<JoinedBusSession>,QString,QString)));
+    /* Let parsing and lifecycle-management of sessions happen entirely in separate thread to avoid race conditions */
+    introspectionParser.moveToThread(&introspectionThread);
+    QObject::connect(&introspectionThread, SIGNAL(introspectionXmlReceived(std::shared_ptr<IObservableBusSession>,QString,QString)), &introspectionParser, SLOT(introspectionXmlReceived(std::shared_ptr<IObservableBusSession>,QString,QString)));
 
     PresentNodesModel presentNodes;
     QObject::connect(&introspectionParser, SIGNAL(nodeFound(std::shared_ptr<AllJoynNode>)), &presentNodes, SLOT(nodeFound(std::shared_ptr<AllJoynNode>)));

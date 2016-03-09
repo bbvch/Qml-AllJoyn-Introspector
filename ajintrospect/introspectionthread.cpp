@@ -24,11 +24,11 @@ void IntrospectionThread::run()
     AJ_CHECK(bus->Start());
     AJ_CHECK(bus->Connect());
 
-    auto callback = [this] (std::shared_ptr<JoinedBusSession> session, std::string path, std::string xml)
+    auto callback = [this] (std::shared_ptr<IObservableBusSession> session, std::string path, std::string xml)
     {
         QMetaObject::invokeMethod(
             this, "introspectionXmlReceived",
-            Q_ARG(std::shared_ptr<JoinedBusSession>, session),
+            Q_ARG(std::shared_ptr<IObservableBusSession>, session),
             Q_ARG(QString, QString(path.c_str())),
             Q_ARG(QString, QString(xml.c_str()))
         );

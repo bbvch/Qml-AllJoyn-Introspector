@@ -9,7 +9,7 @@ IntrospectionParser::IntrospectionParser()
     reader.setErrorHandler(this);
 }
 
-void IntrospectionParser::introspectionXmlReceived(std::shared_ptr<JoinedBusSession> session, QString path, QString xml)
+void IntrospectionParser::introspectionXmlReceived(std::shared_ptr<IObservableBusSession> session, QString path, QString xml)
 {
     current_node = std::make_shared<AllJoynNode>(session, path);
 

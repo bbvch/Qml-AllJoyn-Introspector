@@ -9,28 +9,32 @@
 #include "joinedbussession_fw.h"
 
 
-class AllJoynNode : public QObject
+class AllJoynNode : public QObject, public std::enable_shared_from_this<AllJoynNode>
 {
     Q_OBJECT
     Q_PROPERTY(QList<QString> methods READ getMethods)
     Q_PROPERTY(QString name READ getName)
 
 public:
-    AllJoynNode(std::shared_ptr<JoinedBusSession> session, QString path, QObject *parent = 0);
+    AllJoynNode(std::shared_ptr<IObservableBusSession> session, QString path, QObject *parent = 0);
+    virtual ~AllJoynNode();
 
-public:
     void addMethod(QString interface, QString method, QString params, QString returns);
     QList<QString> getMethods() const;
     QString getName() const;
+    bool isAvailable() const;
+    void notifyOnSessionTermination(); //< register with session to emit sessionTerminated signal
 
 signals:
-    void sessionTerminated();
+    void sessionTerminated(QString);
 
 public slots:
     void invokeMethod(QString,QList<QVariant>,QList<QVariant>&);
 
 private:
-    std::shared_ptr<JoinedBusSession> session;
+    void emitSessionTerminated(std::string reason);
+
+    std::shared_ptr<IObservableBusSession> session;
     QString path;
 
     QList<QString> methods;

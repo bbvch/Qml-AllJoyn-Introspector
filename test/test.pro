@@ -12,7 +12,8 @@ SOURCES += \
     /usr/src/gmock/src/gmock_main.cc \
     /usr/src/gmock/src/gmock-all.cc \
     introspectionparsertest.cpp \
-    presentnodesmodeltest.cpp
+    presentnodesmodeltest.cpp \
+    alljoynnodetest.cpp
 
 INCLUDEPATH += /usr/src/gtest /usr/src/gmock
 
@@ -21,3 +22,6 @@ include(../core/core.pri)
 
 DISTFILES += \
     example.txt
+
+HEADERS += \
+    mockbussession.h

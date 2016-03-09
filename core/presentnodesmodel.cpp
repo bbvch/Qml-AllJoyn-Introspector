@@ -1,17 +1,40 @@
+#include <algorithm>
+
 #include "presentnodesmodel.h"
 
 PresentNodesModel::PresentNodesModel(QObject* parent) : QAbstractListModel(parent)
 {
-
 }
 
 void PresentNodesModel::nodeFound(std::shared_ptr<AllJoynNode> node)
 {
-    beginInsertRows(QModelIndex(), nodes.length(), nodes.length());
-    nodes.append(node);
-    endInsertRows();
+    node->notifyOnSessionTermination();
+
+    if(node->isAvailable())
+    {
+        beginInsertRows(QModelIndex(), nodes.length(), nodes.length());
+        QObject::connect(node.get(), SIGNAL(sessionTerminated(QString)), this, SLOT(nodeLost(QString)));
+        nodes.append(node);
+        endInsertRows();
+    }
 }
 
+void PresentNodesModel::nodeLost(QString reason)
+{
+    Q_UNUSED(reason);
+
+    AllJoynNode* node = qobject_cast<AllJoynNode*>(sender());
+
+    auto pos = std::find_if(nodes.begin(), nodes.end(), [node] (auto const& n) { return n.get() == node; });
+
+    if(pos != nodes.end())
+    {
+        auto index = pos - nodes.begin();
+        beginRemoveRows(QModelIndex(), index, index);
+        nodes.erase(pos);
+        endRemoveRows();
+    }
+}
 
 int PresentNodesModel::rowCount(const QModelIndex &parent) const
 {
