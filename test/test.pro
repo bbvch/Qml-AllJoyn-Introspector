@@ -20,8 +20,7 @@ INCLUDEPATH += /usr/src/gtest /usr/src/gmock
 include(../AllJoyn-Introspector-Cpp.pri)
 include(../core/core.pri)
 
-DISTFILES += \
-    example.txt
+DISTFILES +=
 
 HEADERS += \
     mockbussession.h

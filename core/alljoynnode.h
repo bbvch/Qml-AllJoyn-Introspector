@@ -29,7 +29,7 @@ signals:
     void sessionTerminated(QString);
 
 public slots:
-    void invokeMethod(QString,QList<QVariant>,QList<QVariant>&);
+    void callInterfaceMethod(QString,QList<QVariant>);
 
 private:
     void emitSessionTerminated(std::string reason);

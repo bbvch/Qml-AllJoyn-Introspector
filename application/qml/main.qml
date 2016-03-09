@@ -19,7 +19,6 @@ Window {
             width: parent.width
             height: contentHeight
 
-
             header: Text {
                 text: name + " (" + methods.length + ")"
                 font.bold: true
@@ -27,11 +26,23 @@ Window {
             }
 
             model: methods
-            delegate: Text {
-                text: modelData
-                width: parent.width - 20
-                anchors.right: parent.right
-                font.pointSize: 14
+            delegate: Item {
+                width: parent.width
+                height: 30
+
+                Button {
+                    anchors.right: txt.left
+                    height: txt.height
+                    width: 20
+                    text: ">"
+                    onClicked: node.callInterfaceMethod(modelData, [])
+                }
+                Text {
+                    id: txt
+                    text: modelData
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    font.pixelSize: 20
+                }
             }
         }
     }

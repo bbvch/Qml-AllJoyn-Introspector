@@ -47,9 +47,14 @@ QString AllJoynNode::getName() const
     return session->getFullName().c_str() + path;
 }
 
-void AllJoynNode::invokeMethod(QString method, QList<QVariant> params, QList<QVariant>& returns)
+void AllJoynNode::callInterfaceMethod(QString method, QList<QVariant> params)
 {
+    // TODO use params
 
+    auto method_end = method.indexOf("(");
+    auto method_name = method.left(method_end);
+
+    session->invokeMethod(path.toStdString(), method_name.toStdString());
 }
 
 void AllJoynNode::emitSessionTerminated(std::string reason)

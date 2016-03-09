@@ -27,4 +27,9 @@ public:
     {
         return terminated;
     }
+
+    bool invokeMethod(std::string, std::string)
+    {
+        return false;
+    }
 };

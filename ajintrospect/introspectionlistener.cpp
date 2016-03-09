@@ -58,7 +58,9 @@ void IntrospectionListener::Announced(const char* busName, uint16_t version, ajn
         }
         if(reply->GetArg())
         {
-            callback(session, path, reply->GetArg()->v_string.str);
+            const char* xml = reply->GetArg()->v_string.str;
+            AJ_CHECK(bus->CreateInterfacesFromXml(xml));
+            callback(session, path, xml);
         }
     }
 }
