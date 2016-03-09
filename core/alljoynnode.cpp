@@ -44,7 +44,7 @@ QList<QString> AllJoynNode::getMethods() const
 
 QString AllJoynNode::getName() const
 {
-    return path;
+    return session->getFullName().c_str() + path;
 }
 
 void AllJoynNode::invokeMethod(QString method, QList<QVariant> params, QList<QVariant>& returns)
