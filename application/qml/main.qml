@@ -35,7 +35,17 @@ Window {
                     height: txt.height
                     width: 20
                     text: ">"
-                    onClicked: node.callInterfaceMethod(modelData, [])
+                    onClicked: {
+                        var method = modelData;
+                        var args = [];
+
+                        if(method.indexOf("(s)") >= 0)
+                        {
+                            args = ["XXX"];
+                        }
+
+                        node.callInterfaceMethod(method, args);
+                    }
                 }
                 Text {
                     id: txt

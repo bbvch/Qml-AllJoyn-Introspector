@@ -28,8 +28,13 @@ public:
         return terminated;
     }
 
-    bool invokeMethod(std::string, std::string)
+    std::unique_ptr<ArgumentList> invokeMethod(std::string path, std::string method, std::unique_ptr<ArgumentList> args)
     {
         return false;
+    }
+
+    std::unique_ptr<ArgumentList> createArgs() const
+    {
+        return nullptr;
     }
 };

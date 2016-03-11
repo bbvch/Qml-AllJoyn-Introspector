@@ -1,4 +1,7 @@
+#include <iostream>
+
 #include "alljoynnode.h"
+
 
 namespace {
     auto registered1 = qRegisterMetaType<std::shared_ptr<AllJoynNode>>();
@@ -49,12 +52,28 @@ QString AllJoynNode::getName() const
 
 void AllJoynNode::callInterfaceMethod(QString method, QList<QVariant> params)
 {
-    // TODO use params
+    auto args = session->createArgs();
+    for(auto& param : params)
+    {
+        if(param.type() == QVariant::Type::String)
+        {
+            args->addString(param.toString().toStdString());
+        }
+    }
 
     auto method_end = method.indexOf("(");
     auto method_name = method.left(method_end);
 
-    session->invokeMethod(path.toStdString(), method_name.toStdString());
+    auto ret = session->invokeMethod(path.toStdString(), method_name.toStdString(), std::move(args));
+
+    auto len = ret->getSignature().length();
+    for(size_t i=0; i<len; ++i)
+    {
+        try {
+            std::cout << ret->getString(i) << std::endl;
+        }
+        catch(std::exception) {}
+    }
 }
 
 void AllJoynNode::emitSessionTerminated(std::string reason)

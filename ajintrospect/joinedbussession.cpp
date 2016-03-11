@@ -1,6 +1,7 @@
 #include <sstream>
 
 #include "joinedbussession.h"
+#include "ajargumentlist.h"
 
 
 JoinedBusSession::JoinedBusSession(std::shared_ptr<ajn::BusAttachment> bus, const char* busName, ajn::SessionPort port, ajn::SessionOpts opts)
@@ -48,7 +49,12 @@ void JoinedBusSession::removeTerminationCallback(void *reference)
     callbacks.erase(reference);
 }
 
-bool JoinedBusSession::invokeMethod(std::string path, std::string method)
+std::unique_ptr<ArgumentList> JoinedBusSession::createArgs() const
+{
+    return std::make_unique<AjArgumentList>();
+}
+
+std::unique_ptr<ArgumentList> JoinedBusSession::invokeMethod(std::string path, std::string method, std::unique_ptr<ArgumentList> args)
 {
     ajn::ProxyBusObject proxy(*sessionBus, busName.c_str(), path.c_str(), sessionId);
     ajn::Message reply(*sessionBus);
@@ -57,29 +63,27 @@ bool JoinedBusSession::invokeMethod(std::string path, std::string method)
     auto interface = method.substr(0, interface_end);
     auto method_name = method.substr(interface_end+1);
 
+    auto args2 = dynamic_cast<AjArgumentList*>(args.get());
+
     try
     {
         AJ_CHECK(proxy.AddInterface(interface.c_str()));
-
-#if 0
-        ajn::MsgArg params[] { { "s", "XXX" } };
-        AJ_CHECK(proxy.MethodCall(interface.c_str(), method_name.c_str(), params, 1, reply, 5000));
-#else
-        AJ_CHECK(proxy.MethodCall(interface.c_str(), method_name.c_str(), NULL, 0, reply, 5000));
-#endif
+        if(args2)
+        {
+            AJ_CHECK(proxy.MethodCall(interface.c_str(), method_name.c_str(), args2->data(), args2->size(), reply, 5000));
+        }
+        else
+        {
+            AJ_CHECK(proxy.MethodCall(interface.c_str(), method_name.c_str(), nullptr, 0, reply, 5000));
+        }
     }
     catch(alljoyn_error& e)
     {
         std::cerr << e.what() << std::endl;
-        return false;
+        return std::make_unique<AjArgumentList>();
     }
 
-    if(reply->GetArg() && reply->GetArg()->HasSignature("s"))
-    {
-        std::cout << reply->GetArg()->v_string.str << std::endl;
-    }
-
-    return true;
+    return AjArgumentList::fromMessage(reply);
 }
 
 std::string JoinedBusSession::getFullName() const

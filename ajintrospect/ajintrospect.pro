@@ -10,14 +10,17 @@ SOURCES += \
     alljoynhelpers.cpp \
     introspectionlistener.cpp \
     introspectionthread.cpp \
-    joinedbussession.cpp
+    joinedbussession.cpp \
+    ajargumentlist.cpp
 
 HEADERS += \
     alljoynhelpers.h \
     introspectionlistener.h \
     introspectionthread.h \
     joinedbussession.h \
-    iobservablebussession.h
+    iobservablebussession.h \
+    ajargumentlist.h \
+    argumentlist.h
 
 DEFINES += QCC_OS_GROUP_POSIX
 

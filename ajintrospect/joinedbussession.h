@@ -17,7 +17,8 @@ public:
     void removeTerminationCallback(void *reference);
     std::string getFullName() const;
     bool isTerminated() const override;
-    bool invokeMethod(std::string path, std::string method);
+    std::unique_ptr<ArgumentList> invokeMethod(std::string path, std::string method, std::unique_ptr<ArgumentList> args = nullptr) override;
+    std::unique_ptr<ArgumentList> createArgs() const override;
 
     ajn::SessionId id() const;
     std::shared_ptr<ajn::BusAttachment> bus() const;
