@@ -15,7 +15,7 @@ public:
     AjArgumentList();
     ~AjArgumentList() = default;
 
-    std::string getSignature() const override;
+    std::string signature() const override;
     void addString(std::string value) override;
     std::string getString(size_t index) const override;
 
@@ -25,5 +25,5 @@ public:
 
 private:
     std::vector<ajn::MsgArg> args;
-    std::string signature;
+    std::string signature_str;
 };

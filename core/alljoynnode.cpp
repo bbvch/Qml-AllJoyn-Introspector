@@ -16,7 +16,8 @@ AllJoynNode::AllJoynNode(std::shared_ptr<IObservableBusSession> session, QString
 void AllJoynNode::notifyOnSessionTermination()
 {
     auto wptr = std::weak_ptr<AllJoynNode>{shared_from_this()};
-    session->addTerminationCallback(this, [wptr] (std::string reason) {
+    session->addTerminationCallback(this, [wptr] (std::string reason)
+    {
         if(auto ptr = wptr.lock())
         {
             ptr->emitSessionTerminated(reason);
@@ -50,7 +51,7 @@ QString AllJoynNode::getName() const
     return session->getFullName().c_str() + path;
 }
 
-void AllJoynNode::callInterfaceMethod(QString method, QList<QVariant> params)
+QVariant AllJoynNode::callInterfaceMethod(QString method, QList<QVariant> params)
 {
     auto args = session->createArgs();
     for(auto& param : params)
@@ -66,19 +67,28 @@ void AllJoynNode::callInterfaceMethod(QString method, QList<QVariant> params)
 
     auto ret = session->invokeMethod(path.toStdString(), method_name.toStdString(), std::move(args));
 
-    auto len = ret->getSignature().length();
+    auto len = ret->size();
+    QList<QVariant> returns;
+
     for(size_t i=0; i<len; ++i)
     {
+        QVariant value;
+
         try {
-            std::cout << ret->getString(i) << std::endl;
+            auto s = ret->getString(i);
+            value = QString::fromStdString(s.c_str());
         }
         catch(std::exception) {}
+
+        returns.push_back(value);
     }
+
+    return QVariant::fromValue(returns);
 }
 
 void AllJoynNode::emitSessionTerminated(std::string reason)
 {
-    emit sessionTerminated(QString(reason.c_str()));
+    emit sessionTerminated(QString::fromStdString(reason));
 }
 
 bool AllJoynNode::isAvailable() const

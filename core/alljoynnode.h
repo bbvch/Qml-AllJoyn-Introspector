@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QObject>
-#include <QList>
+#include <QVector>
 #include <QVariant>
 
 #include <memory>
@@ -28,8 +28,8 @@ public:
 signals:
     void sessionTerminated(QString);
 
-public slots:
-    void callInterfaceMethod(QString,QList<QVariant>);
+public:
+    Q_INVOKABLE QVariant callInterfaceMethod(QString,QList<QVariant>);
 
 private:
     void emitSessionTerminated(std::string reason);

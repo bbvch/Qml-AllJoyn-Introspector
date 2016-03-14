@@ -23,4 +23,5 @@ include(../core/core.pri)
 DISTFILES +=
 
 HEADERS += \
-    mockbussession.h
+    mockbussession.h \
+    mockargumentlist.h

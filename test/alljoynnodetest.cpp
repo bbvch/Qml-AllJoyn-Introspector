@@ -64,3 +64,17 @@ TEST(AllJoynNode, nodeDeletedWithoutRequestingNotification)
 
     ajn.reset();
 }
+
+TEST(AllJoynNode, passesOnlyStringsToSessionWhenInvokingMethod)
+{
+    auto session = std::make_shared<MockBusSession>();
+    auto ajn = std::make_shared<AllJoynNode>(session, "/path");
+
+    auto ret = ajn->callInterfaceMethod("xxx", {QVariant::fromValue(42), QVariant::fromValue(QString{"foobar"})});
+
+    ASSERT_EQ(QVariant::List, ret.type());
+    auto list = ret.toList();
+
+    ASSERT_EQ(list.length(), 1);
+    ASSERT_EQ(list[0], QString{"foobar"});
+}

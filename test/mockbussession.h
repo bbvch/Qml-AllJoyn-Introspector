@@ -1,6 +1,9 @@
 #pragma once
 
+#include <memory>
+
 #include "../ajintrospect/iobservablebussession.h"
+#include "mockargumentlist.h"
 
 class MockBusSession : public IObservableBusSession
 {
@@ -30,11 +33,11 @@ public:
 
     std::unique_ptr<ArgumentList> invokeMethod(std::string path, std::string method, std::unique_ptr<ArgumentList> args)
     {
-        return false;
+        return args;
     }
 
     std::unique_ptr<ArgumentList> createArgs() const
     {
-        return nullptr;
+        return std::make_unique<MockArgumentList>();
     }
 };

@@ -44,7 +44,8 @@ Window {
                             args = ["XXX"];
                         }
 
-                        node.callInterfaceMethod(method, args);
+                        var ret = node.callInterfaceMethod(method, args);
+                        console.log(ret);
                     }
                 }
                 Text {

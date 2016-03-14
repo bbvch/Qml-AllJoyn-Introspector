@@ -10,14 +10,14 @@ AjArgumentList::AjArgumentList()
 
 AjArgumentList::AjArgumentList();
 
-std::string AjArgumentList::getSignature() const
+std::string AjArgumentList::signature() const
 {
-    return signature;
+    return signature_str;
 }
 
 void AjArgumentList::addString(std::string value)
 {
-    signature += "s";
+    signature_str += "s";
     args.emplace_back("s", value.c_str());
     args.back().Stabilize();
 }
