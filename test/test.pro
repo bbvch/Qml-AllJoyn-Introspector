@@ -13,7 +13,8 @@ SOURCES += \
     /usr/src/gmock/src/gmock-all.cc \
     introspectionparsertest.cpp \
     presentnodesmodeltest.cpp \
-    alljoynnodetest.cpp
+    alljoynnodetest.cpp \
+    methodsproxymodeltest.cpp
 
 INCLUDEPATH += /usr/src/gtest /usr/src/gmock
 

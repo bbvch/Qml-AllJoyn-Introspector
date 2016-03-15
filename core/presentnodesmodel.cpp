@@ -63,7 +63,6 @@ QVariant PresentNodesModel::data(const QModelIndex &index, int role) const
         case int(UserRoles::Node):
             return QVariant::fromValue(node.get());
 
-
         case int(UserRoles::Methods):
             return {node->getMethods()};
         }

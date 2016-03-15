@@ -5,6 +5,7 @@
 #include "introspectionthread.h"
 #include "introspectionparser.h"
 #include "presentnodesmodel.h"
+#include "methodsproxymodel.h"
 #include "alljoynnode.h"
 #include "joinedbussession_fw.h"
 
@@ -27,13 +28,16 @@ int main(int argc, char *argv[])
     PresentNodesModel presentNodes;
     QObject::connect(&introspectionParser, SIGNAL(nodeFound(std::shared_ptr<AllJoynNode>)), &presentNodes, SLOT(nodeFound(std::shared_ptr<AllJoynNode>)));
 
+    MethodsProxyModel methodModel;
+    methodModel.setSourceModel(&presentNodes);
+
     QQmlApplicationEngine engine;
 
     auto ctxt = engine.rootContext();
     ctxt->setContextProperty("presentNodes", &presentNodes);
+    ctxt->setContextProperty("methodModel", &methodModel);
 
     engine.load(QUrl("qrc:/main.qml"));
-
 
     introspectionThread.start();
     return app.exec();

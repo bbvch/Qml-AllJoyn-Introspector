@@ -9,12 +9,14 @@ TEMPLATE = lib
 SOURCES += \
     introspectionparser.cpp \
     alljoynnode.cpp \
-    presentnodesmodel.cpp
+    presentnodesmodel.cpp \
+    methodsproxymodel.cpp
 
 HEADERS += \
     introspectionparser.h \
     alljoynnode.h \
     joinedbussession_fw.h \
-    presentnodesmodel.h
+    presentnodesmodel.h \
+    methodsproxymodel.h
 
 include(../AllJoyn-Introspector-Cpp.pri)

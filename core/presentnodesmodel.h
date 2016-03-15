@@ -25,8 +25,6 @@ public:
         Methods
     };
 
-signals:
-
 public slots:
     void nodeFound(std::shared_ptr<AllJoynNode>);
 
