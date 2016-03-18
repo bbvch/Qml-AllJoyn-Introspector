@@ -11,18 +11,60 @@ Item {
         anchors.fill: parent
 
         Text {
-            Layout.fillWidth: true
             text: node.name
+            font.pixelSize: 40
         }
 
-        ListView {
+        Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            model: node.methods
 
-            delegate: Method {
-                name: modelData
-                node: nodeDetails.node
+            color: "#ccddff"
+
+            ColumnLayout {
+                anchors.fill: parent
+
+                Text {
+                    text: "Methods"
+                    font.pixelSize: 30
+                }
+
+                ListView {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    model: node.methods
+
+                    delegate: Method {
+                        name: modelData
+                        node: nodeDetails.node
+                    }
+                }
+            }
+        }
+
+        Rectangle {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
+            color: "#aabbff"
+
+            ColumnLayout {
+                anchors.fill: parent
+
+                Text {
+                    text: "Properties"
+                    font.pixelSize: 30
+                }
+
+                ListView {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    model: node.propertyNames
+
+                    delegate: Text {
+                        text: modelData + ": " + node.properties[modelData]
+                    }
+                }
             }
         }
 

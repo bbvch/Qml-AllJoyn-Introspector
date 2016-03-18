@@ -19,6 +19,8 @@ public:
     bool isTerminated() const override;
     std::unique_ptr<ArgumentList> invokeMethod(std::string path, std::string method, std::unique_ptr<ArgumentList> args = nullptr) override;
     std::unique_ptr<ArgumentList> createArgs() const override;
+    std::string getStringProperty(std::string path, std::string property) const override;
+    bool setStringProperty(std::string path, std::string property, std::string value) override;
 
     ajn::SessionId id() const;
     std::shared_ptr<ajn::BusAttachment> bus() const;

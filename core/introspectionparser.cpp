@@ -40,6 +40,19 @@ bool IntrospectionParser::startElement(const QString &, const QString &, const Q
     {
         interface = attrs.value("name");
     }
+    else if(name == "property")
+    {
+        auto property = attrs.value("name");
+        auto type = attrs.value("type");
+        auto direction = attrs.value("direction");
+
+        QString value;
+        if(direction != "write")
+        {
+        }
+
+        current_node->addProperty(interface, property, type);
+    }
     else if(name == "method")
     {
         method = attrs.value("name");

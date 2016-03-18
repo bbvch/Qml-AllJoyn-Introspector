@@ -31,13 +31,23 @@ public:
         return terminated;
     }
 
-    std::unique_ptr<ArgumentList> invokeMethod(std::string path, std::string method, std::unique_ptr<ArgumentList> args)
+    std::unique_ptr<ArgumentList> invokeMethod(std::string path, std::string method, std::unique_ptr<ArgumentList> args) override
     {
         return args;
     }
 
-    std::unique_ptr<ArgumentList> createArgs() const
+    std::unique_ptr<ArgumentList> createArgs() const override
     {
         return std::make_unique<MockArgumentList>();
+    }
+
+    std::string getStringProperty(std::string path, std::string property) const override
+    {
+        return "";
+    }
+
+    bool setStringProperty(std::string path, std::string property, std::string value) override
+    {
+        return false;
     }
 };

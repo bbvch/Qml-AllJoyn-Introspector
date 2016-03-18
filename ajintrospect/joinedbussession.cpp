@@ -118,3 +118,48 @@ std::shared_ptr<ajn::BusAttachment> JoinedBusSession::bus() const
     return sessionBus;
 }
 
+std::string JoinedBusSession::getStringProperty(std::string path, std::string property) const
+{
+    ajn::ProxyBusObject proxy(*sessionBus, busName.c_str(), path.c_str(), sessionId);
+    ajn::MsgArg value;
+
+    auto interface_end = property.find_last_of('.');
+    auto interface = property.substr(0, interface_end);
+    auto property_name = property.substr(interface_end+1);
+
+    try
+    {
+        AJ_CHECK(proxy.AddInterface(interface.c_str()));
+        AJ_CHECK(proxy.GetProperty(interface.c_str(), property_name.c_str(), value, 5000));
+    }
+    catch(alljoyn_error& e)
+    {
+        std::cerr << e.what() << std::endl;
+        return "";
+    }
+
+    return value.v_string.str;
+}
+
+bool JoinedBusSession::setStringProperty(std::string path, std::string property, std::string value)
+{
+    ajn::ProxyBusObject proxy(*sessionBus, busName.c_str(), path.c_str(), sessionId);
+    ajn::MsgArg v{"s", value.c_str()};
+
+    auto interface_end = property.find_last_of('.');
+    auto interface = property.substr(0, interface_end);
+    auto property_name = property.substr(interface_end+1);
+
+    try
+    {
+        AJ_CHECK(proxy.AddInterface(interface.c_str()));
+        AJ_CHECK(proxy.SetProperty(interface.c_str(), property_name.c_str(), v, 5000));
+    }
+    catch(alljoyn_error& e)
+    {
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+
+    return true;
+}

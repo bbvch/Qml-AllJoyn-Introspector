@@ -24,6 +24,7 @@ public:
     virtual ~AllJoynNode();
 
     void addMethod(QString interface, QString method, QString params, QString returns);
+    void addProperty(QString interface, QString property, QString type);
     QStringList getMethods() const;
     QVariantMap getProperties() const;
     QStringList getPropertyNames() const;

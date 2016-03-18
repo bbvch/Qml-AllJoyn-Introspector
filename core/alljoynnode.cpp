@@ -11,7 +11,6 @@ namespace {
 AllJoynNode::AllJoynNode(std::shared_ptr<IObservableBusSession> session, QString path, QObject *parent)
     : QObject(parent), session(session), path(path)
 {
-    properties.insert("XXX", "XXX");
 }
 
 void AllJoynNode::notifyOnSessionTermination()
@@ -40,6 +39,19 @@ void AllJoynNode::addMethod(QString interface, QString method, QString params, Q
     }
 
     methods += m;
+}
+
+void AllJoynNode::addProperty(QString interface, QString property, QString type)
+{
+    QString p = interface + "." + property;
+    QVariant value;
+
+    if(type == "s")
+    {
+        value = QString::fromStdString(session->getStringProperty(path.toStdString(), p.toStdString()));
+    }
+
+    properties[p] = value;
 }
 
 QStringList AllJoynNode::getMethods() const
