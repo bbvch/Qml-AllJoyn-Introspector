@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file alias="main.qml">qml/main.qml</file>
+        <file alias="Method.qml">qml/Method.qml</file>
+        <file alias="Node.qml">qml/Node.qml</file>
+        <file alias="NodesList.qml">qml/NodesList.qml</file>
+        <file alias="NodeDetails.qml">qml/NodeDetails.qml</file>
     </qresource>
 </RCC>

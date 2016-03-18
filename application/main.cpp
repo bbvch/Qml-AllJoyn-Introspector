@@ -37,6 +37,9 @@ int main(int argc, char *argv[])
     ctxt->setContextProperty("presentNodes", &presentNodes);
     ctxt->setContextProperty("methodModel", &methodModel);
 
+    QVariantMap map;
+    ctxt->setContextProperty("xxx", map);
+
     engine.load(QUrl("qrc:/main.qml"));
 
     introspectionThread.start();
