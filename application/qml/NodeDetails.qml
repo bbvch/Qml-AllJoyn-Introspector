@@ -18,7 +18,6 @@ Item {
         ListView {
             Layout.fillHeight: true
             Layout.fillWidth: true
-
             model: node.methods
 
             delegate: Method {
