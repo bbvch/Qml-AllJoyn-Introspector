@@ -12,3 +12,6 @@ application.depends = \
 
 test.depends = \
 	core
+
+DISTFILES += \
+        README.md

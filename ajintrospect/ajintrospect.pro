@@ -24,7 +24,7 @@ HEADERS += \
 
 DEFINES += QCC_OS_GROUP_POSIX
 
-INCLUDEPATH += $$PWD/../../alljoyn-15.09.00a-src/build/linux/x86_64/debug/dist/cpp/inc
-DEPENDPATH += $$PWD/../../alljoyn-15.09.00a-src/build/linux/x86_64/debug/dist/cpp/inc
+INCLUDEPATH += $$(AJ_DIST)/cpp/inc
+DEPENDPATH += $$(AJ_DIST)/cpp/inc
 
 include(../AllJoyn-Introspector-Cpp.pri)
