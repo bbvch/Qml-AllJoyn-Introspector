@@ -38,3 +38,12 @@ cd AllJoyn-Introspector-QML
 qmake
 make
 ```
+
+## Status
+
+**Preview**
+
+### Limitations:
+
+* Only the string type (DBus type "s") is supported for method calls and properties
+* Properties are read-only (and not tested yet)

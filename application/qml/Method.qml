@@ -23,7 +23,7 @@ Item {
                 }
 
                 var ret = node.callInterfaceMethod(name, args);
-                console.log(ret);
+                toast.show("Method returned:\n"+ret)
             }
         }
 

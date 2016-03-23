@@ -46,4 +46,12 @@ ApplicationWindow {
             }
         }
     }
+
+    Component.onCompleted: {
+        toast.show("Application started")
+    }
+
+    Toast {
+        id: toast
+    }
 }
