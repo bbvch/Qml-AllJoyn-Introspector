@@ -4,16 +4,13 @@ import QtQuick.Controls 1.3
 
 
 ColumnLayout {
-    property var toolBar: null
-
-    Text {
-        id: title
-        Layout.fillWidth: true
-
-        text: "Discovered nodes"
-        font.bold: true
-        font.pixelSize: 36
-        height: 40
+    property var toolBar: ToolBar {
+        Text {
+            text: "Discovered nodes"
+            font.bold: true
+            font.pixelSize: 36
+            height: 40
+        }
     }
 
     GridView

@@ -7,11 +7,14 @@ Item {
     property var node
 
     width: parent.width
-    height: 30
+    height: Math.max(btn.height, txt.contentHeight)
 
     RowLayout {
+        anchors.fill: parent
+
         Button {
-            height: txt.height
+            id: btn
+            height: 20
             width: 20
             text: ">"
             onClicked: {

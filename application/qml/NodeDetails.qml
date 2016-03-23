@@ -8,21 +8,29 @@ Item {
     id: nodeDetails
 
     property var toolBar: ToolBar {
-        ToolButton {
-            text: "< Back"
-            onClicked: {
-                stack.pop()
+        RowLayout {
+            anchors.fill: parent
+
+            ToolButton {
+                text: "< Back"
+                onClicked: {
+                    stack.pop()
+                }
+            }
+
+            Text {
+                Layout.alignment: Qt.AlignRight
+
+                text: node.name
+                font.bold: true
+                font.pixelSize: 36
+                height: 40
             }
         }
     }
 
     ColumnLayout {
         anchors.fill: parent
-
-        Text {
-            text: node.name
-            font.pixelSize: 40
-        }
 
         Rectangle {
             Layout.fillHeight: true
