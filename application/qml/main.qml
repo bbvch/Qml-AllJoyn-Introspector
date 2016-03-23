@@ -4,12 +4,13 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.3
 
 
-Window {
+ApplicationWindow {
     id: mainWindow
 
     visible: true
-    minimumWidth:  800
-    minimumHeight: 600
+    width: 800
+    height: 600
+    toolBar: stack.currentItem.toolBar
 
 
     StackView {

@@ -8,8 +8,6 @@ AjArgumentList::AjArgumentList()
 
 }
 
-AjArgumentList::AjArgumentList();
-
 std::string AjArgumentList::signature() const
 {
     return signature_str;

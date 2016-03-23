@@ -1,8 +1,11 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
+import QtQuick.Controls 1.3
 
 
 ColumnLayout {
+    property var toolBar: null
+
     Text {
         id: title
         Layout.fillWidth: true
@@ -13,22 +16,22 @@ ColumnLayout {
         height: 40
     }
 
-    GridLayout
+    GridView
     {
+        id: grid
+
         Layout.fillHeight: true
         Layout.fillWidth: true
 
-        columnSpacing: 10
-        rowSpacing: 10
+        cellHeight: 140
+        cellWidth: 340
 
-        Repeater {
-            model: presentNodes
+        model: presentNodes
 
-            delegate: Node {
-                node: model.node
-                width: 340
-                height: 180
-            }
+        delegate: Node {
+            node: model.node
+            width: 300
+            height: 120
         }
     }
 }

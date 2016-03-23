@@ -3,8 +3,11 @@ TEMPLATE = subdirs
 SUBDIRS = \
 	core \
 	application \
-	ajintrospect \
-	test
+        ajintrospect
+
+!android {
+    SUBDIRS += test
+}
 
 application.depends = \
 	core \

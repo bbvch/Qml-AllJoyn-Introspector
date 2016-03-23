@@ -7,6 +7,15 @@ Item {
 
     id: nodeDetails
 
+    property var toolBar: ToolBar {
+        ToolButton {
+            text: "< Back"
+            onClicked: {
+                stack.pop()
+            }
+        }
+    }
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -65,13 +74,6 @@ Item {
                         text: modelData + ": " + node.properties[modelData]
                     }
                 }
-            }
-        }
-
-        Button {
-            text: "Exit"
-            onClicked: {
-                stack.pop()
             }
         }
     }

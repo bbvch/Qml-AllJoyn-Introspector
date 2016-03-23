@@ -4,6 +4,10 @@ QT += core xml
 TARGET = core
 CONFIG += c++14 staticlib
 
+android {
+    QMAKE_CXXFLAGS += -std=c++1y
+}
+
 TEMPLATE = lib
 
 SOURCES += \
