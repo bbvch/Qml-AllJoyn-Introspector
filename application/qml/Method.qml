@@ -6,8 +6,31 @@ Item {
     property string name
     property var node
 
+    id: methodItem
+
     width: parent.width
     height: Math.max(btn.height, txt.contentHeight)
+
+    function execute()
+    {
+        var args = [];
+
+        if(name.match(/\(.*?\)/)[0].length > 2)
+        {
+            stack.push(methodCall);
+        } else {
+            executeWithArgs(args);
+        }
+    }
+
+    function executeWithArgs(args)
+    {
+        var ret = node.callInterfaceMethod(name, args);
+        if(ret)
+        {
+            toast.show("Method returned:\n"+ret)
+        }
+    }
 
     RowLayout {
         anchors.fill: parent
@@ -17,23 +40,23 @@ Item {
             height: 20
             width: 20
             text: ">"
-            onClicked: {
-                var args = [];
-
-                if(name.indexOf("(s)") >= 0)
-                {
-                    args = ["XXX"];
-                }
-
-                var ret = node.callInterfaceMethod(name, args);
-                toast.show("Method returned:\n"+ret)
-            }
+            onClicked: methodItem.execute()
         }
 
         Text {
             id: txt
             text: name
             font.pixelSize: 20
+        }
+    }
+
+    Loader {
+        Component {
+            id: methodCall
+
+            MethodCall {
+                method: methodItem
+            }
         }
     }
 }

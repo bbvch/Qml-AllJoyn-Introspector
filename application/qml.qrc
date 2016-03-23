@@ -6,5 +6,6 @@
         <file alias="NodesList.qml">qml/NodesList.qml</file>
         <file alias="NodeDetails.qml">qml/NodeDetails.qml</file>
         <file alias="Toast.qml">qml/Toast.qml</file>
+        <file alias="MethodCall.qml">qml/MethodCall.qml</file>
     </qresource>
 </RCC>

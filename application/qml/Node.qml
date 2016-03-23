@@ -37,11 +37,13 @@ Rectangle {
             }
         }
 
-        Component {
-            id: nodeDetails
+        Loader {
+            Component {
+                id: nodeDetails
 
-            NodeDetails {
-                node: currentNode.node
+                NodeDetails {
+                    node: currentNode.node
+                }
             }
         }
 
