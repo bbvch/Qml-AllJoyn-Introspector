@@ -28,8 +28,7 @@ unzip alljoyn-15.09.00a-android-sdk-rel.zip
 ```
 * Set the following environment variables
 ```bash
-export AJ_ROOT=$PWD
-export AJ_DIST=$AJ_ROOT/core/alljoyn/build/linux/*/debug/dist
+export AJ_DIST=$PWD/core/alljoyn/build/linux/*/debug/dist
 ```
 * Download and build AllJoyn-Introspector-Qml
 ```bash
