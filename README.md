@@ -1,4 +1,4 @@
-# QML AllJoyn Introspector
+# QML AllJoyn Introspector [![Build Status](https://travis-ci.org/bbvch/Qml-AllJoyn-Introspector.svg?branch=master)](https://travis-ci.org/bbvch/Qml-AllJoyn-Introspector)
 
 QML AllJoyn Introspector is an open source [AllJoyn](https://allseenalliance.org/framework)
 client for discovering, introspecting, and controlling IoT devices on the local network. By

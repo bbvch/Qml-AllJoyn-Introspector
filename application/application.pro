@@ -3,8 +3,10 @@ TEMPLATE = app
 QT += qml quick
 
 TARGET = AllJoyn-Introspector
-CONFIG += c++14
 CONFIG -= app_bundle
+
+# qmake does not seem to understand the c++14 option
+QMAKE_CXXFLAGS += -std=c++1y
 
 include(../AllJoyn-Introspector-Cpp.pri)
 include(../core/core.pri)

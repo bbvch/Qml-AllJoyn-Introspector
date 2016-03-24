@@ -1,13 +1,18 @@
-sudo: required
+matrix:
+  include:
+    - sudo: required
+      language: cpp
+      os: android
+      compiler: g++
+      services: docker
+      env: TARGET=android
+    - sudo: required
+      language: cpp
+      os: linux
+      compiler: g++
+      services: docker
+      env: TARGET=linux
 
-language: cpp
+before_install: docker build -t qmlalljoyn .travis/$TARGET/
 
-services:
-  - docker
-
-before_install:
-- docker build -t qmlalljoyn .
-
-script:
-- docker run -ti --name qmlalljoynintrospector -e ANDROID_NDK_PLATFORM=android-19 -v $PWD:/source:ro qmlalljoyn /bin/sh -c "mkdir /build && mkdir /dist && cd /build && qmake /source && make -j4 install INSTALL_ROOT=/dist && androiddeployqt --input /build/application/android-libAllJoyn-Introspector.so-deployment-settings.json --output /dist --deployment bundled --gradle --release"
-- docker cp qmlalljoynintrospector:/dist/build/outputs/apk/dist-release-unsigned.apk Qml-AllJoyn-Introspector.apk
+script: docker run -ti --name qmlalljoynintrospector -v $PWD:/source:ro qmlalljoyn /build.sh

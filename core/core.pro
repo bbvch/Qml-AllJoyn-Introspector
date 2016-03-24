@@ -2,11 +2,10 @@ QT -= gui
 QT += core xml
 
 TARGET = core
-CONFIG += c++14 staticlib
+CONFIG += staticlib
 
-android {
-    QMAKE_CXXFLAGS += -std=c++1y
-}
+# qmake does not seem to understand the c++14 option
+QMAKE_CXXFLAGS += -std=c++1y
 
 TEMPLATE = lib
 
