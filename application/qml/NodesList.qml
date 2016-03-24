@@ -21,14 +21,14 @@ ColumnLayout {
         Layout.fillWidth: true
 
         cellHeight: 140
-        cellWidth: 340
+        cellWidth: width / Math.max(1, Math.floor(grid.width/340.0))
 
         model: presentNodes
 
         delegate: Node {
             node: model.node
-            width: 300
-            height: 120
+            width: grid.cellWidth - 40
+            height: grid.cellHeight - 20
         }
     }
 }

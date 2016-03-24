@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.2
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
 
@@ -16,6 +16,7 @@ Item {
 
             Text {
                 Layout.fillWidth: true
+                clip: true
                 text: method.name
                 font.bold: true
                 font.pixelSize: 20
@@ -38,10 +39,11 @@ Item {
     }
 
     TableView {
+        id: paramsTable
         anchors.fill: parent
 
         model: ListModel {
-            id: model
+            id: paramsModel
         }
 
         TableViewColumn {
@@ -65,11 +67,12 @@ Item {
             resizable: true
             horizontalAlignment: Qt.AlignLeft
 
-            delegate: TextEdit {
+            delegate: TextField {
                 Layout.fillWidth: true
+                inputMethodHints: Qt.ImhNoPredictiveText
                 text: model.value
 
-                onTextChanged: model.value = text
+                onTextChanged: paramsModel.setProperty(index, "value", text)
             }
         }
     }
@@ -78,11 +81,11 @@ Item {
     {
         var params = methodItem.name.match(/\(.*?\)/)[0].split("")
         params = params.slice(1, params.length - 1)
-        for (var i =0; i < params.length; ++i)
+        for (var i = 0; i < params.length; ++i)
         {
-            if(params[i] == "s") {
-                model.append({ "parameter": "arg"+i , "type": "String", "value": "" })
-                console.log("arg"+i)
+            if(params[i] == "s")
+            {
+                paramsModel.append({ "parameter": "arg"+i, "type": "String", "value": "" })
             }
         }
     }
@@ -90,9 +93,9 @@ Item {
     function paramsFromModel()
     {
         var args = []
-        for (var i =0; i < model.count; ++i)
+        for (var i = 0; i < paramsModel.count; ++i)
         {
-            args.push(model.get(i).value)
+            args.push(paramsModel.get(i).value)
         }
 
         return args;
