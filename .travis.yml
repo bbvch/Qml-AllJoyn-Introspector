@@ -10,4 +10,4 @@ before_install:
 
 script:
 - docker run -ti --name qmlalljoynintrospector -e ANDROID_NDK_PLATFORM=android-19 -v $PWD:/source:ro qmlalljoyn /bin/sh -c "mkdir /build && mkdir /dist && cd /build && qmake /source && make -j4 install INSTALL_ROOT=/dist && androiddeployqt --input /build/application/android-libAllJoyn-Introspector.so-deployment-settings.json --output /dist --deployment bundled --gradle --release"
-- docker cp qmlalljoynintrospector:/dist/build/outputs/apk/android-build-release-unsigned.apk .
+- docker cp qmlalljoynintrospector:/dist/build/outputs/apk/dist-release-unsigned.apk Qml-AllJoyn-Introspector.apk
